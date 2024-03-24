@@ -10,7 +10,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 /** @jsx jsx */
 import { useEffect, useState, useCallback } from 'react';
 import { css, jsx } from '@emotion/react';
-import { useArgs, useAddonState, useStorybookState } from '@storybook/manager-api';
+import { useParameter, useArgs, useAddonState, useStorybookState } from '@storybook/manager-api';
 import copy from 'copy-to-clipboard';
 import { ADDON_ID } from '../constants';
 import ShadeTooltip from './shadeTooltip';
@@ -40,6 +40,8 @@ var Shade = function Shade(_ref) {
     visible = _usePopperTooltip.visible;
   var storyId = state.storyId;
   var storyState = addonState === null || addonState === void 0 || (_addonState$storyStat = addonState.storyStates) === null || _addonState$storyStat === void 0 ? void 0 : _addonState$storyStat[storyId];
+  var colorPicker = useParameter('colorPicker') || {};
+  var controlValueType = colorPicker.controlValueType;
   useEffect(function () {
     var timeout;
     if (copied) {
@@ -54,7 +56,7 @@ var Shade = function Shade(_ref) {
   var handleClick = useCallback(function () {
     var newArgs = {};
     storyState.selectedControls.forEach(function (control) {
-      newArgs[control] = shade.value;
+      newArgs[control] = shade[controlValueType || 'value'];
     });
     if (state.viewMode === 'story') {
       updateArgs(newArgs);
@@ -63,7 +65,7 @@ var Shade = function Shade(_ref) {
       setCopied(true);
       copy(shade.value);
     }
-  }, [storyState.selectedControls, storyState.copyOnClick, state.viewMode, shade.value, updateArgs]);
+  }, [storyState.selectedControls, storyState.copyOnClick, state.viewMode, shade, controlValueType, updateArgs]);
   return jsx("div", null, jsx("div", {
     onClick: handleClick,
     ref: setTriggerRef,

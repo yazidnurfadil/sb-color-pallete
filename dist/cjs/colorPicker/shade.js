@@ -46,6 +46,8 @@ var Shade = function Shade(_ref) {
     visible = _usePopperTooltip.visible;
   var storyId = state.storyId;
   var storyState = addonState === null || addonState === void 0 || (_addonState$storyStat = addonState.storyStates) === null || _addonState$storyStat === void 0 ? void 0 : _addonState$storyStat[storyId];
+  var colorPicker = (0, _managerApi.useParameter)('colorPicker') || {};
+  var controlValueType = colorPicker.controlValueType;
   (0, _react.useEffect)(function () {
     var timeout;
     if (copied) {
@@ -60,7 +62,7 @@ var Shade = function Shade(_ref) {
   var handleClick = (0, _react.useCallback)(function () {
     var newArgs = {};
     storyState.selectedControls.forEach(function (control) {
-      newArgs[control] = shade.value;
+      newArgs[control] = shade[controlValueType || 'value'];
     });
     if (state.viewMode === 'story') {
       updateArgs(newArgs);
@@ -69,7 +71,7 @@ var Shade = function Shade(_ref) {
       setCopied(true);
       (0, _copyToClipboard["default"])(shade.value);
     }
-  }, [storyState.selectedControls, storyState.copyOnClick, state.viewMode, shade.value, updateArgs]);
+  }, [storyState.selectedControls, storyState.copyOnClick, state.viewMode, shade, controlValueType, updateArgs]);
   return (0, _react2.jsx)("div", null, (0, _react2.jsx)("div", {
     onClick: handleClick,
     ref: setTriggerRef,

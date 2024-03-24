@@ -28,6 +28,7 @@ export type PaletteObj = PaletteAsObject | PaletteAsArray;
 export type Theme = 'light' | 'dark' | 'auto';
 export type ColorPickerParameters = {
     primaryPalette?: string;
+    controlValueType?: 'label' | 'value';
     palettes?: PaletteObj[];
     applyColorTo?: string[];
     disableDefaultPalettes?: boolean;
